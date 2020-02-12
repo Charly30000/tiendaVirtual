@@ -91,4 +91,10 @@ class TiendaVideojuegosController extends Controller
         $data += (new Orm)->precioTotalPedidos($cookie);
         echo json_encode($data);
     }
+
+    function quitarPedido($idProducto) {
+        $cookie = sanitizar(session_id());
+        (new Orm)->quitarPedido($idProducto, $cookie);
+        echo json_encode(["realizado"]);
+    }
 }

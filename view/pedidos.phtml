@@ -3,7 +3,6 @@ global $URL_PATH;
 \dawfony\Ti::extend("view/mainview.phtml");
 \dawfony\Ti::startBlock("content");
 ?>
-
 <?php
     foreach ($pedidosUsuario as $value) {
 ?>
@@ -12,28 +11,18 @@ global $URL_PATH;
                 <img src="<?= $URL_PATH ?>/assets/videojuegos/<?= $value["foto"] ?>" alt="<?= $value["foto"] ?>">
             </div>
             <div class="col-md-8">
-                <?= $value["nombre"] ?>
+                <?= $value["nombre"] ?> <br>
+                <a href="#" class="borrarPedido" id="<?= $value["id_producto"] ?>_borrar"><i class="fa fa-trash" style="font-size:48px;color:red"></i></a>
             </div>
             <div class="col-md-2">
-                Cantidad: <span id="<?= $value["id_producto"] ?>_cantidad"><?= $value["cantidad"] ?> </span>
-                <table>
-                    <tr>
-                        <td>
-                            <a href="#" class="aumentar flechas" id="<?= $value["id_producto"] ?>_aumentar">
-                            <img src="<?= $URL_PATH ?>/assets/flechas/flechaArriba.jpg" alt="aumentar" width = "20px">
-                            Aumentar
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="#" class="disminuir flechas" id="<?= $value["id_producto"] ?>_disminuir">
-                            <img src="<?= $URL_PATH ?>/assets/flechas/flechaAbajo.jpg" alt="aumentar" width = "20px">
-                            Disminuir
-                            </a>
-                        </td>
-                    </tr>
-                </table>
+                Cantidad: <span id="<?= $value["id_producto"] ?>_cantidad"><?= $value["cantidad"] ?> </span><br>
+                <a href="#" class="aumentar flechas" id="<?= $value["id_producto"] ?>_aumentar">
+                <img src="<?= $URL_PATH ?>/assets/flechas/flechaArriba.jpg" alt="aumentar" width = "20px">
+                Aumentar
+                </a><br>
+                <a href="#" class="disminuir flechas" id="<?= $value["id_producto"] ?>_disminuir">
+                <img src="<?= $URL_PATH ?>/assets/flechas/flechaAbajo.jpg" alt="aumentar" width = "20px">
+                Disminuir</a>
                 <br>
                 Precio: <span id="<?= $value["id_producto"] ?>_precio"><?= $value["precio"] ?></span>
             </div>
@@ -53,6 +42,7 @@ global $URL_PATH;
 	</div>
 <script> var URL_PATH = "<?= $URL_PATH ?>"; </script>
 <script src="<?= $URL_PATH ?>/js/pedidos.js"></script>
+<script src="<?= $URL_PATH ?>/js/borrarPedido.js"></script>
 <a href="<?= $URL_PATH ?>/comprobarCompra">SIGUIENTE PASO</a>
 <?php
 \dawfony\Ti::endBlock();

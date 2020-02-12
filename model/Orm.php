@@ -96,4 +96,14 @@ class Orm
             where id_visitante = ? and producto.id_producto = cesta.id_producto and producto.id_producto = ?";
         return $bd->queryOne($sql, [$cookie, $idProducto]);
     }
+
+    public function quitarPedido($idProducto, $cookie) {
+        $bd = Klasto::getInstance();
+        $sql = "delete from cesta where id_producto = ? and id_visitante = ?";
+        $ejecutar = $bd->execute($sql, [$idProducto, $cookie]);
+        if ($ejecutar === 0) {
+            echo json_encode(["No se ha podido hacer la operacion"]);
+            die();
+        }
+    }
 }
