@@ -1,0 +1,88 @@
+<?php
+global $URL_PATH;
+global $VIAJES_POR_PAGINA;
+\dawfony\Ti::extend("view/mainview.phtml");
+\dawfony\Ti::startBlock("content");
+?>
+<script>var URL_PATH = "<?= $URL_PATH ?>"; </script>
+<!-- ********************** listado ******************************************* -->
+
+<div class="row">
+    <?php foreach ($videojuegos as $videojuego) : ?>
+        <div class="col-md-6 pb-2">
+            <div class="card">
+                <img class="card-img-top img-fluid" src="<?= $URL_PATH ?>/assets/videojuegos/<?= $videojuego->foto ?>" alt="<?= $videojuego->nombre ?>">
+                <div class="card-body">
+                    <h5 class="card-title"><?= $videojuego->nombre ?></h5>
+                    <p class="card-text"><strong>Precio: <?= $videojuego->precio ?></strong></p>
+                    <a href="javascript:void(0)" onclick="verDescripcion(<?=$videojuego->id_producto?>)" class="btn btn-primary">Ver descripción</a>
+                    <a href="javascript:void(0)" onclick="pedir(<?=$videojuego->id_producto?>)" class="btn btn-primary">Pedir</a>
+                </div>
+            </div>
+        </div>
+    <?php endforeach ?>
+</div>
+
+
+<!-- ********************** Modal ******************************************* -->
+<script>
+    function verDescripcion(viajeid) {
+        console.log("En verDescipcion del viaje #"+viajeid); // mensaje de depuración
+        // Esto es jquery, copiado de la documentación de bootstrap.
+        $('#viajeModal').modal('show');  // mostrar div oculto de manera modal. 
+        let url = "<?= $URL_PATH ?>/viaje/" + viajeid;
+        fetch(url)
+        .then(function(respuesta){
+          return respuesta.json();
+        })
+        .then(function(respuesta) {
+          document.getElementById("titulo").innerHTML = respuesta.nombre;
+          document.getElementById("descripcion").innerHTML = respuesta.descripcion;
+          document.getElementById("precioprivado").innerHTML = respuesta.precio;
+        })
+    }
+</script>
+<div class="modal fade" id="viajeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="titulo">titulo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="descripcion">descripcion</p>
+        <p id="precioprivado" class="text-success font-weight-bold">precioprivado</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="pedir" data-dismiss="modal">Pedir</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav aria-label="...">
+  <ul class="pagination">
+    <li class="page-item">
+      <a class="page-link" href="<?= $URL_PATH ?>/listado/0">Primera pagina</a>
+    </li>
+    <?php for ($i=0; $i < ceil($cantidadVideojuegos["contador"] / $VIAJES_POR_PAGINA); $i++) {
+      ?>
+      <?php if ($i != $pagina) { ?>
+        <li class="page-item"><a class="page-link" href="<?= $URL_PATH ?>/listado/<?= $i ?>"><?= $i ?></a></li>
+      <?php } else { ?>
+        <li class="page-item active"><a class="page-link" href="<?= $URL_PATH ?>/listado/<?= $i ?>"><?= $i ?><span class="sr-only">(current)</span></a></li>
+      <?php } ?>
+      <?php
+    } ?>
+    <li class="page-item">
+      <a class="page-link" href="<?= $URL_PATH ?>/listado/<?= ceil($cantidadVideojuegos["contador"] / $VIAJES_POR_PAGINA) - 1 ?>">Ultima pagina</a>
+    </li>
+  </ul>
+</nav>
+
+<?php
+\dawfony\Ti::endBlock();
+\dawfony\Ti::endExtend();
+?>

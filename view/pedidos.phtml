@@ -1,0 +1,60 @@
+<?php
+global $URL_PATH;
+\dawfony\Ti::extend("view/mainview.phtml");
+\dawfony\Ti::startBlock("content");
+?>
+
+<?php
+    foreach ($pedidosUsuario as $value) {
+?>
+        <div class="row">
+            <div class="col-md-2">
+                <img src="<?= $URL_PATH ?>/assets/videojuegos/<?= $value["foto"] ?>" alt="<?= $value["foto"] ?>">
+            </div>
+            <div class="col-md-8">
+                <?= $value["nombre"] ?>
+            </div>
+            <div class="col-md-2">
+                Cantidad: <span id="<?= $value["id_producto"] ?>_cantidad"><?= $value["cantidad"] ?> </span>
+                <table>
+                    <tr>
+                        <td>
+                            <a href="#" class="aumentar flechas" id="<?= $value["id_producto"] ?>_aumentar">
+                            <img src="<?= $URL_PATH ?>/assets/flechas/flechaArriba.jpg" alt="aumentar" width = "20px">
+                            Aumentar
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#" class="disminuir flechas" id="<?= $value["id_producto"] ?>_disminuir">
+                            <img src="<?= $URL_PATH ?>/assets/flechas/flechaAbajo.jpg" alt="aumentar" width = "20px">
+                            Disminuir
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                Precio: <span id="<?= $value["id_producto"] ?>_precio"><?= $value["precio"] ?></span>
+            </div>
+        </div>
+<?php
+    }
+?>
+<div class="row">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-8">
+            Total:
+		</div>
+		<div class="col-md-2">
+            <span id="precioTotal"><?= $precioTotal["sumaTotal"] ?></span>
+		</div>
+	</div>
+<script> var URL_PATH = "<?= $URL_PATH ?>"; </script>
+<script src="<?= $URL_PATH ?>/js/pedidos.js"></script>
+<a href="<?= $URL_PATH ?>/comprobarCompra">SIGUIENTE PASO</a>
+<?php
+\dawfony\Ti::endBlock();
+\dawfony\Ti::endExtend();
+?>

@@ -1,0 +1,47 @@
+<?php
+global $URL_PATH;
+\dawfony\Ti::extend("view/mainview.phtml");
+\dawfony\Ti::startBlock("content");
+?>
+<div class="row">
+	<div class="col-md-12">
+		<h3>
+			¿Son estos los productos correctos?
+		</h3>
+	</div>
+</div>
+
+<?php
+    foreach ($pedidosUsuario as $value) {
+    ?>
+    <div class="row bordeNegro">
+		<div class="col-md-2">
+            <img src="<?= $URL_PATH ?>/assets/videojuegos/<?= $value["foto"] ?>" alt="<?= $value["foto"] ?>">
+		</div>
+		<div class="col-md-8">
+            Videojuego: <?= $value["nombre"] ?><br>
+            Cantidad del producto: <?= $value["cantidad"] ?>
+		</div>
+		<div class="col-md-2">
+            Precio total del producto: <strong><?= $value["precio"] ?></strong>
+		</div>
+	</div>
+    <?php
+    }
+?>
+
+<div class="row">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-8">
+            Total de la compra:
+		</div>
+		<div class="col-md-2">
+            <strong><?= $precioTotal["sumaTotal"] ?> €</strong>
+		</div>
+    </div>
+<a href="<?= $URL_PATH ?>/verPedidos">Modificar pedido</a>
+<?php
+\dawfony\Ti::endBlock();
+\dawfony\Ti::endExtend();
+?>

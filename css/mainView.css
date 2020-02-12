@@ -1,0 +1,36 @@
+#cosasCarrito {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    background-color: white;
+    width: 500px;
+    padding: 10px;
+}
+#verCarrito:hover ~ #cosasCarrito {
+    display: block;
+}
+#cosasCarrito:hover {
+    display: block;
+}
+#botonRealizarCompra {
+    background-color: #fc7122;
+    padding: 10px;
+    margin-top: 5px;
+    display: block;
+    text-align: center;
+}
+.bloque {
+    display: block;
+}
+
+.col-md-10 {
+    padding: 5px;
+}
+
+.row {
+    margin-top: 5px;
+}
+
+.alineadoDerecha {
+    text-align: right;
+}
