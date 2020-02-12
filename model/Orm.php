@@ -4,6 +4,7 @@ namespace model;
 
 use dawfony\Klasto;
 use \model\Producto;
+use \model\Usuario;
 class Orm
 {
 
@@ -101,6 +102,42 @@ class Orm
         $bd = Klasto::getInstance();
         $sql = "delete from cesta where id_producto = ? and id_visitante = ?";
         $ejecutar = $bd->execute($sql, [$idProducto, $cookie]);
+        if ($ejecutar === 0) {
+            echo json_encode(["No se ha podido hacer la operacion"]);
+            die();
+        }
+    }
+
+    public function annadirUsuario($usuario) {
+        $bd = Klasto::getInstance();
+        $sql = "insert into usuario (nombre_usuario, direccion_correo, direccion_fisica) values (?, ?, ?)";
+        $ejecutar = $bd->execute($sql, [$usuario->nombre_usuario, $usuario->direccion_correo, $usuario->direccion_fisica]);
+        if ($ejecutar === 0) {
+            echo json_encode(["No se ha podido hacer la operacion"]);
+            die();
+        }
+    }
+
+    public function annadirPedido($nombre) {
+        $bd = Klasto::getInstance();
+        $sql = "insert into pedido (Usuario_nombre_usuario) values (?)";
+        $ejecutar = $bd->execute($sql, [$nombre]);
+        if ($ejecutar === 0) {
+            echo json_encode(["No se ha podido hacer la operacion"]);
+            die();
+        }
+    }
+
+    public function obtenerIdPedido($nombre) {
+        $bd = Klasto::getInstance();
+        $sql = "select id_pedido from pedido where Usuario_nombre_usuario = ?";
+        return $bd->queryOne($sql, [$nombre]);
+    }
+
+    public function insertarProductosPide($id_producto, $id_pedido, $cantidad) {
+        $bd = Klasto::getInstance();
+        $sql = "insert into producto_has_pedido (Producto_id_producto, Pedido_id_pedido, cantidad) values (?, ?, ?)";
+        $ejecutar = $bd->execute($sql, [$id_producto, $id_pedido, $cantidad]);
         if ($ejecutar === 0) {
             echo json_encode(["No se ha podido hacer la operacion"]);
             die();

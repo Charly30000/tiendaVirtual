@@ -15,7 +15,7 @@ function borrarPedido() {
         if (respuesta[0] === "realizado") {
             caja.parentNode.parentNode.remove();
         } else {
-            console.log(respuesta);
+            alert(respuesta[0]);
         }
     })
 }

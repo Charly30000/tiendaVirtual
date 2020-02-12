@@ -21,6 +21,8 @@ Macaw::get($URL_PATH . '/comprobarCompra', "controller\TiendaVideojuegosControll
 Macaw::get($URL_PATH . '/aumentarPedido/(:num)', "controller\TiendaVideojuegosController@aumentarPedido");
 Macaw::get($URL_PATH . '/disminuirPedido/(:num)', "controller\TiendaVideojuegosController@disminuirPedido");
 Macaw::get($URL_PATH . '/quitarPedido/(:num)', "controller\TiendaVideojuegosController@quitarPedido");
+Macaw::get($URL_PATH . '/annadirDireccion', "controller\TiendaVideojuegosController@annadirDireccion");
+Macaw::post($URL_PATH . '/annadirDireccion', "controller\TiendaVideojuegosController@annadirDireccionCompletado");
 // Despachar rutas
 
   Macaw::dispatch();

@@ -1,0 +1,40 @@
+<?php
+global $URL_PATH;
+\dawfony\Ti::extend("view/mainview.phtml");
+\dawfony\Ti::startBlock("content");
+?>
+<div class="row">
+		<div class="col-md-12">
+			<form role="form" id="formulario" action="<?= $URL_PATH ?>/annadirDireccion" method="POST">
+				<div class="form-group">
+					 
+					<label for="nombre">
+						Nombre de usuario:
+					</label>
+					<input type="text" class="form-control" id="nombre" name="nombre" />
+				</div>
+				<div class="form-group">
+					 
+					<label for="email">
+						Direccion de correo
+					</label>
+					<input type="email" class="form-control" id="email" name="email" />
+				</div>
+                <div class="form-group">
+					 
+					<label for="nombre">
+						Direccion fisica
+					</label>
+					<input type="text" class="form-control" id="direccion" name="direccion" />
+				</div>
+				<button type="submit" class="btn btn-primary">
+					Hacer pedido
+				</button>
+			</form>
+		</div>
+	</div>
+    <script src="<?= $URL_PATH ?>/js/annadirDireccion.js"></script>
+<?php
+\dawfony\Ti::endBlock();
+\dawfony\Ti::endExtend();
+?>

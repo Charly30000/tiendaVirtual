@@ -97,4 +97,32 @@ class TiendaVideojuegosController extends Controller
         (new Orm)->quitarPedido($idProducto, $cookie);
         echo json_encode(["realizado"]);
     }
+
+    function annadirDireccion() {
+        $cookie = sanitizar(session_id());
+        $cantidadPedidos = (new Orm)->obtenerCantidadPedidos($cookie);
+        echo Ti::render("view/annadirDireccion.phtml",compact("cantidadPedidos"));
+    }
+
+    function annadirDireccionCompletado() {
+        $cookie = sanitizar(session_id());
+        $nombre = sanitizar($_POST["nombre"] ?? "ninguno");
+        $email = sanitizar($_POST["email"] ?? "ninguno");
+        $direccion = sanitizar($_POST["direccion"] ?? "ninguno");
+        $usuario = new Usuario;
+        $usuario->nombre_usuario = $nombre;
+        $usuario->direccion_correo = $direccion;
+        $usuario->direccion_fisica = $direccion;
+        //Empezamos a hacer las insercciones pertinentes para crear al usuario y su pedido
+        (new Orm)->annadirUsuario($usuario);
+        (new Orm)->annadirPedido($nombre);
+        //Obtenemos los pedidos del usuario para añadirlos a la base de datos de pedidos en espera
+        $pedidosUsuario = (new Orm)->obtenerPedidosUsuario($cookie);
+        $obtenerIdPedido = (new Orm)->obtenerIdPedido($nombre);
+        //Inserto todos los productos en pedidos
+        foreach ($pedidosUsuario as $value) {
+            (new Orm)->insertarProductosPide($value["id_producto"], $obtenerIdPedido["id_pedido"], $value["cantidad"]);
+        }
+
+    }
 }
