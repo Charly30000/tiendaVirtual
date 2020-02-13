@@ -105,13 +105,14 @@ class TiendaVideojuegosController extends Controller
     }
 
     function annadirDireccionCompletado() {
+        global $URL_PATH;
         $cookie = sanitizar(session_id());
         $nombre = sanitizar($_POST["nombre"] ?? "ninguno");
         $email = sanitizar($_POST["email"] ?? "ninguno");
         $direccion = sanitizar($_POST["direccion"] ?? "ninguno");
         $usuario = new Usuario;
         $usuario->nombre_usuario = $nombre;
-        $usuario->direccion_correo = $direccion;
+        $usuario->direccion_correo = $email;
         $usuario->direccion_fisica = $direccion;
         //Empezamos a hacer las insercciones pertinentes para crear al usuario y su pedido
         (new Orm)->annadirUsuario($usuario);
@@ -123,6 +124,30 @@ class TiendaVideojuegosController extends Controller
         foreach ($pedidosUsuario as $value) {
             (new Orm)->insertarProductosPide($value["id_producto"], $obtenerIdPedido["id_pedido"], $value["cantidad"]);
         }
+        $cod_comercio = 2222;
+        $cod_pedido = $obtenerIdPedido["id_pedido"];
+        $importe = (new Orm)->precioTotalPedidos($cookie)["sumaTotal"];
+        $concepto = "Pago del usuario $nombre en concepto de la compra de videojuegos";
+        $cantidadPedidos = (new Orm)->obtenerCantidadPedidos($cookie);
+        echo Ti::render("view/enviarDatosABanco.phtml",compact("cod_comercio", "cod_pedido", "importe", "concepto", "cantidadPedidos"));
+    }
 
+    function informa() {
+        $cod_pedido = sanitizar($_REQUEST["cod_pedido"] ?? 0);
+        $importe = sanitizar($_REQUEST["importe"] ?? 0);
+        $estado = sanitizar($_REQUEST["estado"] ?? "");
+        $cod_operacion = sanitizar($_REQUEST["cod_operacion"] ?? 0);
+        $estadoPago = "";
+        if ($estado === "ok") {
+            $estadoPago = "realizado";
+        } elseif ($estado === "nook") {
+            $estadoPago = "pago sin exito";
+        } elseif ($estado === "cancelado") {
+            $estadoPago = "cancelado";
+        } else {
+            $estadoPago = "intento hack";
+        }
+        (new Orm)->actualizarEstadoPedido($estadoPago, $cod_pedido);
+        echo '{"msg": "Servidor de la tienda informado"}';
     }
 }

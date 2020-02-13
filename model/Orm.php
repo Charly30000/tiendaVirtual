@@ -120,7 +120,7 @@ class Orm
 
     public function annadirPedido($nombre) {
         $bd = Klasto::getInstance();
-        $sql = "insert into pedido (Usuario_nombre_usuario) values (?)";
+        $sql = "insert into pedido (Usuario_nombre_usuario, estado_pedido) values (?, 'pendiente')";
         $ejecutar = $bd->execute($sql, [$nombre]);
         if ($ejecutar === 0) {
             echo json_encode(["No se ha podido hacer la operacion"]);
@@ -138,6 +138,16 @@ class Orm
         $bd = Klasto::getInstance();
         $sql = "insert into producto_has_pedido (Producto_id_producto, Pedido_id_pedido, cantidad) values (?, ?, ?)";
         $ejecutar = $bd->execute($sql, [$id_producto, $id_pedido, $cantidad]);
+        if ($ejecutar === 0) {
+            echo json_encode(["No se ha podido hacer la operacion"]);
+            die();
+        }
+    }
+
+    public function actualizarEstadoPedido($estadoPago, $cod_pedido) {
+        $bd = Klasto::getInstance();
+        $sql = "update pedido set estado_pedido = ? where id_pedido = ?";
+        $ejecutar = $bd->execute($sql, [$estadoPago, $cod_pedido]);
         if ($ejecutar === 0) {
             echo json_encode(["No se ha podido hacer la operacion"]);
             die();

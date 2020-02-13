@@ -1,0 +1,26 @@
+<?php
+global $URL_PATH;
+global $VIAJES_POR_PAGINA;
+\dawfony\Ti::extend("view/mainview.phtml");
+\dawfony\Ti::startBlock("content");
+?>
+<div class="row">
+		<div class="col-md-12">
+			<form role="form" action="/Servidor/pasarela-simulacion-master/index.php" method="POST">
+                <input type="hidden" name="cod_comercio" value="<?= $cod_comercio ?>" />
+				<input type="hidden" name="cod_pedido" value="<?= $cod_pedido ?>" />
+                <input type="hidden" name="importe" value="<?= $importe ?>" />
+                <input type="hidden" name="concepto" value="<?= $concepto ?>" />
+				<h1>Pulsa el boton de aceptar si estás de acuerdo con estos datos:</h1>
+                <p> Importe total del pago a realizar: <strong><?= $importe ?> €</strong></p>
+                <p>Concepto del pago: <strong><?= $concepto ?></strong></p>
+				<button type="submit" class="btn btn-primary">
+					Ir a pagar al banco
+				</button>
+			</form>
+		</div>
+	</div>
+<?php
+\dawfony\Ti::endBlock();
+\dawfony\Ti::endExtend();
+?>
