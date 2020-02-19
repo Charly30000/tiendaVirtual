@@ -1,0 +1,21 @@
+<?php
+global $URL_PATH;
+\dawfony\Ti::extend("view/mainview.phtml");
+\dawfony\Ti::startBlock("content");
+?>
+<div class="row">
+		<div class="col-md-12">
+			<blockquote class="blockquote">
+				<p class="mb-0">
+					<?= $mensaje ?>
+				</p>
+				<footer class="blockquote-footer">
+					Gracias por confiar en <cite>Videojuegos Andrés</cite>
+				</footer>
+			</blockquote>
+		</div>
+	</div>
+<?php
+\dawfony\Ti::endBlock();
+\dawfony\Ti::endExtend();
+?>

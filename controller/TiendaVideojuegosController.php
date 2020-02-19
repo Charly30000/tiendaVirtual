@@ -150,4 +150,32 @@ class TiendaVideojuegosController extends Controller
         (new Orm)->actualizarEstadoPedido($estadoPago, $cod_pedido);
         echo '{"msg": "Servidor de la tienda informado"}';
     }
+
+    function retorno() {
+            $cookie = sanitizar(session_id());
+            $cantidadPedidos = (new Orm)->obtenerCantidadPedidos($cookie);
+            $cod_pedido = sanitizar($_REQUEST["cod_pedido"] ?? "");
+            $mensaje = "";
+            if ($cod_pedido) {
+                $estadoPedido = (new Orm)->obtenerEstadoPedido($cod_pedido);
+                switch ($estadoPedido["estado_pedido"]) {
+                    case 'realizado':
+                        $mensaje = "El pago se ha podido realizar con exito!";
+                        break;
+                    case 'cancelado':
+                        $mensaje = "El pago ha sido cancelado";
+                        break;
+                    case 'pago sin exito':
+                        $mensaje = "El pago no se ha podido realizar";
+                        break;
+                    case 'realizado':
+                        $mensaje = "Se ha detectado un intento de hack";
+                        break;
+                    default:
+                        $mensaje = "Ha ocurrido un error inesperado, por favor, vuelva a intentarlo más tarde";
+                        break;
+                }
+                echo Ti::render("view/verEstadoPedido.phtml",compact("mensaje", "cod_pedido", "cantidadPedidos"));
+            }
+    }
 }

@@ -153,4 +153,10 @@ class Orm
             die();
         }
     }
+
+    public function obtenerEstadoPedido($id) {
+        $bd = Klasto::getInstance();
+        $sql = "select estado_pedido from pedido where id_pedido = ?";
+        return $bd->queryOne($sql, [$id]);
+    }
 }
